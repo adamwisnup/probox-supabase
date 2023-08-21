@@ -44,35 +44,35 @@ const insertHistory = async (uid, status, lock, timestamp) => {
   return data;
 };
 
-// const getAllHistory = async () => {
-//   const { data, error } = await supabase
-//     .from("history")
-//     .select("*")
-//     .order("id", { ascending: false })
-//     .range(1, null);
-
-//   if (error) {
-//     throw error;
-//   }
-
-//   return data;
-// };
-
 const getAllHistory = async () => {
   const { data, error } = await supabase
     .from("history")
     .select("*")
-    .order("id", { ascending: false });
+    .order("id", { ascending: false })
+    .range(1, 12);
 
   if (error) {
     throw error;
   }
 
-  // Menghilangkan data terakhir dari hasil
-  const allDataExceptLast = data.slice(1, data.length);
-
-  return allDataExceptLast;
+  return data;
 };
+
+// const getAllHistory = async () => {
+//   const { data, error } = await supabase
+//     .from("history")
+//     .select("*")
+//     .order("id", { ascending: false });
+
+//   if (error) {
+//     throw error;
+//   }
+
+//   // Menghilangkan data terakhir dari hasil
+//   const allDataExceptLast = data.slice(1, data.length);
+
+//   return allDataExceptLast;
+// };
 
 module.exports = {
   insertHistory,
