@@ -44,6 +44,20 @@ const insertHistory = async (uid, status, lock, timestamp) => {
   return data;
 };
 
+// const getAllHistory = async () => {
+//   const { data, error } = await supabase
+//     .from("history")
+//     .select("*")
+//     .order("id", { ascending: false })
+//     .range(1, null);
+
+//   if (error) {
+//     throw error;
+//   }
+
+//   return data;
+// };
+
 const getAllHistory = async () => {
   const { data, error } = await supabase
     .from("history")
@@ -54,7 +68,10 @@ const getAllHistory = async () => {
     throw error;
   }
 
-  return data;
+  // Menghilangkan data terakhir dari hasil
+  const allDataExceptLast = data.slice(1, data.length);
+
+  return allDataExceptLast;
 };
 
 module.exports = {
