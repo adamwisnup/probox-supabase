@@ -33,7 +33,7 @@ const getTelemetryData = async () => {
 const getLatestTelemetryDB = async () => {
   const { data, error } = await supabase
     .from("history")
-    .select("uid, timestamp")
+    .select("uid, status,lock,timestamp")
     .order("id", { ascending: false })
     .limit(1);
 
