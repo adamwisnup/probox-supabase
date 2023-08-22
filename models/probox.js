@@ -3,12 +3,11 @@ const supabase = require("../config/supabaseConfig");
 const insertHistory = async (uid, status, lock, timestamp) => {
   const { data, error } = await supabase
     .from("history")
-    .insert([{ uid, status, lock, timestamp }]);
+    .insert([{ uid: uid, status: status, lock: lock, timestamp: timestamp }]);
 
   if (error) {
     throw error;
   }
-
   return data;
 };
 

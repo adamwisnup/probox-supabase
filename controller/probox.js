@@ -40,10 +40,18 @@ const fetchTelemetryData = async () => {
     const uid = telemetry1Response.data.value || null;
     const status = telemetry2Response.data.value;
     const lock = telemetry3Response.data.value;
-    const timestamp = format(new Date(), "dd-MM-yyyy HH:mm:ss");
+    const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+    let TelemetryData = {
+      uid: uid,
+      status: status,
+      lock: lock,
+      timestamp: timestamp,
+    };
 
     if (uid !== null) {
       await insertHistory(uid, status, lock, timestamp);
+      console.log("New data inserted into the database", TelemetryData);
     }
   } catch (error) {
     console.error("Error fetching telemetry data:", error);
@@ -60,9 +68,15 @@ const getAllHistoryController = async (req, res) => {
     const historyData = await getAllHistory();
 
     if (Array.isArray(historyData)) {
+      // Mengubah format timestamp pada setiap data
+      const formattedData = historyData.map((data) => ({
+        ...data,
+        timestamp: format(new Date(data.timestamp), "yyyy-MM-dd HH:mm:ss"),
+      }));
+
       res.json({
         message: "GET all history success",
-        data: historyData,
+        data: formattedData,
       });
     } else {
       res.status(500).json({
