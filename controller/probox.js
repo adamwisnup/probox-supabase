@@ -1,6 +1,11 @@
-const axios = require("axios");
-const { format } = require("date-fns");
 const { getLatestData, getAllHistory } = require("../models/probox");
+const { utcToZonedTime, format } = require("date-fns-tz");
+
+function formatTimestamp(timestamp) {
+  const timeZone = "Asia/Jakarta";
+  const zonedTime = utcToZonedTime(timestamp, timeZone);
+  return format(zonedTime, "yyyy-MM-dd HH:mm:ss", { timeZone });
+}
 
 const getLastDataController = async (req, res) => {
   try {
@@ -12,7 +17,7 @@ const getLastDataController = async (req, res) => {
       status: dataDB[0].status || null,
       selenoid: dataDB[0].selenoid || null,
       timestamp: dataDB[0].timestamp
-        ? format(new Date(dataDB[0].timestamp), "yyyy-MM-dd HH:mm:ss")
+        ? formatTimestamp(dataDB[0].timestamp)
         : null,
     };
 
@@ -38,7 +43,7 @@ const getAllHistoryController = async (req, res) => {
     if (Array.isArray(historyData)) {
       const formattedData = historyData.map((data) => ({
         ...data,
-        timestamp: format(new Date(data.timestamp), "yyyy-MM-dd HH:mm:ss"),
+        timestamp: formatTimestamp(data.timestamp),
       }));
 
       res.json({

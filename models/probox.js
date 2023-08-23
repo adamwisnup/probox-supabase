@@ -19,7 +19,6 @@ const getAllHistory = async () => {
     .from("sensor")
     .select("*")
     .order("id", { ascending: false });
-  // .range(1, 24);
 
   if (error) {
     throw error;
