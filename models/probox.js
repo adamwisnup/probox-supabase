@@ -1,19 +1,22 @@
 const supabase = require("../config/supabaseConfig");
 
-const insertHistory = async (uid, status, lock, timestamp) => {
+const getLatestData = async () => {
   const { data, error } = await supabase
-    .from("history")
-    .insert([{ uid: uid, status: status, lock: lock, timestamp: timestamp }]);
+    .from("sensor")
+    .select("*")
+    .order("id", { ascending: false })
+    .limit(1);
 
   if (error) {
     throw error;
   }
+
   return data;
 };
 
 const getAllHistory = async () => {
   const { data, error } = await supabase
-    .from("history")
+    .from("sensor")
     .select("*")
     .order("id", { ascending: false })
     .range(1, 24);
@@ -26,6 +29,6 @@ const getAllHistory = async () => {
 };
 
 module.exports = {
-  insertHistory,
   getAllHistory,
+  getLatestData,
 };
