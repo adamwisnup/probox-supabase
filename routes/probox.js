@@ -3,7 +3,6 @@ const {
   getAllHistoryController,
   getLastDataController,
 } = require("../controller/probox");
-
 const router = express.Router();
 
 router.get("/probox/history", getAllHistoryController);
