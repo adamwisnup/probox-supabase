@@ -18,14 +18,16 @@ const getAllHistory = async () => {
   const { data, error } = await supabase
     .from("sensor")
     .select("*")
-    .order("id", { ascending: false })
-    .range(1, 24);
+    .order("id", { ascending: false });
+  // .range(1, 24);
 
   if (error) {
     throw error;
   }
 
-  return data;
+  const historyData = data.slice(1, data.length - 0);
+
+  return historyData;
 };
 
 module.exports = {

@@ -36,7 +36,6 @@ const getAllHistoryController = async (req, res) => {
     const historyData = await getAllHistory();
 
     if (Array.isArray(historyData)) {
-      // Mengubah format timestamp pada setiap data
       const formattedData = historyData.map((data) => ({
         ...data,
         timestamp: format(new Date(data.timestamp), "yyyy-MM-dd HH:mm:ss"),
